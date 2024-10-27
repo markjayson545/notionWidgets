@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Visualization</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #2b2b2b;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .queue-container {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .queue {
+      display: flex;
+      align-items: flex-end;
+      border: 2px solid white;
+      height: 100px;
+      width: 300px;
+      position: relative;
+    }
+
+    .queue div {
+      width: 40px;
+      height: 0;
+      margin-right: 5px;
+      background-color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      transition: height 0.3s ease;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    .controls button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .in-out-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 300px;
+      position: relative;
+      top: -20px;
+    }
+
+    .label {
+      font-size: 18px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Queue Visualization</h1>
+  <div class="queue-container">
+    <div class="queue" id="queue"></div>
+  </div>
+  <div class="in-out-labels">
+    <span class="label">OUT</span>
+    <span class="label">IN</span>
+  </div>
+  <div class="controls">
+    <button onclick="dequeue()">dequeue()</button>
+    <button onclick="peek()">peek()</button>
+    <button onclick="isEmpty()">isEmpty()</button>
+    <button onclick="size()">size()</button>
+  </div>
+  <p id="result"></p>
+
+  <script>
+    const queue = [];
+    const maxElements = 5;
+    let interval;
+
+    function enqueue() {
+      if (queue.length < maxElements) {
+        const element = Math.floor(Math.random() * 9) + 1; // Random number for each element
+        queue.push(element);
+        updateQueueUI();
+      }
+    }
+
+    function dequeue() {
+      if (queue.length > 0) {
+        queue.shift();
+        updateQueueUI();
+      }
+    }
+
+    function peek() {
+      const result = queue.length > 0 ? queue[0] : "Queue is empty";
+      document.getElementById("result").innerText = "Peek: " + result;
+    }
+
+    function isEmpty() {
+      document.getElementById("result").innerText = queue.length === 0 ? "Queue is empty" : "Queue is not empty";
+    }
+
+    function size() {
+      document.getElementById("result").innerText = "Size: " + queue.length;
+    }
+
+    function updateQueueUI() {
+      const queueContainer = document.getElementById("queue");
+      queueContainer.innerHTML = "";
+
+      queue.forEach(element => {
+        const div = document.createElement("div");
+        div.innerText = element;
+        div.style.height = "50px"; // Fixed height for all elements
+        queueContainer.appendChild(div);
+      });
+    }
+
+    // Start auto-enqueue at intervals
+    function startAutoEnqueue() {
+      interval = setInterval(enqueue, 1000); // Enqueue every 1 second
+    }
+
+    // Stop auto-enqueue
+    function stopAutoEnqueue() {
+      clearInterval(interval);
+    }
+
+    // Initialize auto-enqueue on load
+    window.onload = startAutoEnqueue;
+  </script>
+</body>
+</html>
