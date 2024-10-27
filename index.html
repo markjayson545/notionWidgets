@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Implementation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #222;
+            color: #eee;
+            height: 100vh;
+            margin: 0;
+            justify-content: center;
+        }
+
+        .stack-container {
+            width: 200px;
+            height: 300px;
+            border: 2px solid #666;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .stack-element {
+            width: 80%;
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #444;
+            color: #eee;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #666;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stacks</h1>
+    <p>A stack is a data structure that can hold many elements.</p>
+
+    <div class="stack-container" id="stackContainer"></div>
+
+    <div class="buttons">
+        <button onclick="push()">push()</button>
+        <button onclick="pop()">pop()</button>
+        <button onclick="peek()">peek()</button>
+        <button onclick="isEmpty()">isEmpty()</button>
+        <button onclick="size()">size()</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        let stack = [];
+
+        function renderStack() {
+            const stackContainer = document.getElementById('stackContainer');
+            stackContainer.innerHTML = '';
+            stack.forEach(value => {
+                const element = document.createElement('div');
+                element.className = 'stack-element';
+                element.innerText = value;
+                stackContainer.appendChild(element);
+            });
+        }
+
+        function push() {
+            const value = prompt("Enter value to push:");
+            if (value !== null && value !== "") {
+                stack.push(value);
+                renderStack();
+                document.getElementById('result').innerText = `Pushed ${value}`;
+            }
+        }
+
+        function pop() {
+            if (stack.length === 0) {
+                document.getElementById('result').innerText = "Stack is empty. Cannot pop.";
+            } else {
+                const value = stack.pop();
+                renderStack();
+                document.getElementById('result').innerText = `Popped ${value}`;
+            }
+        }
+
+        function peek() {
+            if (stack.length === 0) {
+                document.getElementById('result').innerText = "Stack is empty. Nothing to peek.";
+            } else {
+                const value = stack[stack.length - 1];
+                document.getElementById('result').innerText = `Top element is ${value}`;
+            }
+        }
+
+        function isEmpty() {
+            const empty = stack.length === 0;
+            document.getElementById('result').innerText = `Stack is ${empty ? "empty" : "not empty"}`;
+        }
+
+        function size() {
+            const stackSize = stack.length;
+            document.getElementById('result').innerText = `Stack size is ${stackSize}`;
+        }
+    </script>
+</body>
+</html>
